@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Video Upload</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      .upload-box {
+        width: 50%;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      .upload-box h1 {
+        text-align: center;
+        margin-top: 0;
+      }
+
+      input[type="text"],
+      input[type="file"],
+      input[type="submit"] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0056b3;
+      }
+
+      .query-input {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="upload-box">
+      <h1>Upload a Video</h1>
+      <h3>Either upload a file or paste a link</h3>
+      <form
+        id="upload-form"
+        action="/"
+        method="post"
+        enctype="multipart/form-data"
+        onsubmit="return validateForm()"
+      >
+        <input
+          type="file"
+          name="file"
+          id="file-upload"
+          onchange="toggleUrlField()"
+        /><br /><br />
+        <input
+          type="text"
+          name="url"
+          id="video-url"
+          placeholder="Enter video URL"
+          oninput="toggleFileInput()"
+        /><br /><br />
+        <div class="query-input" id="query-input">
+          <input
+            type="text"
+            name="query"
+            id="query"
+            placeholder="Enter your query"
+          /><br /><br />
+        </div>
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+    <script>
+      function toggleUrlField() {
+        const fileUpload = document.getElementById("file-upload");
+        const videoUrl = document.getElementById("video-url");
+        const queryInput = document.getElementById("query-input");
+
+        if (fileUpload.files.length > 0) {
+          videoUrl.disabled = true;
+          queryInput.style.display = "block";
+        } else {
+          videoUrl.disabled = false;
+          queryInput.style.display = "none";
+        }
+      }
+
+      function toggleFileInput() {
+        const fileUpload = document.getElementById("file-upload");
+        const videoUrl = document.getElementById("video-url");
+        const queryInput = document.getElementById("query-input");
+
+        if (videoUrl.value.trim() !== "") {
+          fileUpload.disabled = true;
+          queryInput.style.display = "block";
+        } else {
+          fileUpload.disabled = false;
+          queryInput.style.display = "none";
+        }
+      }
+
+      function validateForm() {
+        const fileUpload = document.getElementById("file-upload");
+        const videoUrl = document.getElementById("video-url");
+
+        if (fileUpload.files.length === 0 && videoUrl.value.trim() === "") {
+          alert("Please upload a video file or enter a video URL.");
+          return false;
+        }
+
+        // Additional validation can be added here if needed
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
